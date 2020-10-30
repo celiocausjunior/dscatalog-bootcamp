@@ -9,6 +9,10 @@ const Catalog  = () => (
         </h1>
         <div className="catalog-products">
         <ProductCard/>
+        <ProductCard/>
+        <ProductCard/>
+        <ProductCard/>
+        <ProductCard/>
         </div>
     </div>
 );
