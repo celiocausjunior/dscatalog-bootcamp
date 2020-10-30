@@ -13,6 +13,8 @@ const Catalog  = () => (
         <ProductCard/>
         <ProductCard/>
         <ProductCard/>
+        <ProductCard/>
+        <ProductCard/>
         </div>
     </div>
 );
