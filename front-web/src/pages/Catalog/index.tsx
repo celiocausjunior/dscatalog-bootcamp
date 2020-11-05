@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import ProductCard from './components/ProductCard';
 import { Link } from 'react-router-dom'
 import './styles.scss'
-import { makeRequest } from '../../core/utils/request';
-import { ProductsResponse } from '../../core/types/Product';
+import { makeRequest } from 'core/utils/request';
+import { ProductsResponse } from 'core/types/Product';
 import ProductCardLoader from './components/Loaders/ProductCardLoader';
+import Pagination from 'core/components/Pagination';
 
 const Catalog = () => {
 
@@ -43,6 +44,7 @@ const Catalog = () => {
                     ))
                 )}
             </div>
+            <Pagination/>
         </div>
     );
 }
