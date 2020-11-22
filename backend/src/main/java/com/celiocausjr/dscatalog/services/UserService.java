@@ -9,11 +9,13 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.celiocausjr.dscatalog.dto.RoleDTO;
 import com.celiocausjr.dscatalog.dto.UserDTO;
+import com.celiocausjr.dscatalog.dto.UserInsertDTO;
 import com.celiocausjr.dscatalog.entities.Role;
 import com.celiocausjr.dscatalog.entities.User;
 import com.celiocausjr.dscatalog.repositories.RoleRepository;
@@ -29,6 +31,9 @@ public class UserService {
 
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	@Transactional(readOnly = true)
 	public Page<UserDTO> findAllPaged(PageRequest page) {
@@ -44,9 +49,10 @@ public class UserService {
 	}
 
 	@Transactional
-	public UserDTO insert(UserDTO dto) {
+	public UserDTO insert(UserInsertDTO dto) {
 		User entity = new User();
 		copyDtoToEntity(dto, entity);
+		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 		entity = userRepository.save(entity);
 		return new UserDTO(entity);
 	}
