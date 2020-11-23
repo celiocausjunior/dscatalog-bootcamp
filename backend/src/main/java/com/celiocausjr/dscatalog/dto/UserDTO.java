@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 import com.celiocausjr.dscatalog.entities.User;
 
@@ -12,9 +15,14 @@ public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String firstName;
-	private String lastName;
 	
+	@NotBlank (message = "Campo Obrigatório")
+	private String firstName;
+	
+	@NotEmpty (message = "Campo Obrigatório")
+	private String lastName;
+
+	@Email (message = "Informar um email válido")
 	@Column (unique = true)
 	private String email;
 
