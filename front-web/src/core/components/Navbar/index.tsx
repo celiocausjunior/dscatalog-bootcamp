@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles.scss';
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom';
 
 const Navbar = () => (
     <nav className="row bg-primary main-nav">
