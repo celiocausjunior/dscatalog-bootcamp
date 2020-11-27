@@ -23,7 +23,6 @@ public class UserDTO implements Serializable {
 	private String lastName;
 
 	@Email (message = "Informar um email válido")
-	@Column (unique = true)
 	private String email;
 
 	Set<RoleDTO> roles = new HashSet<>();
