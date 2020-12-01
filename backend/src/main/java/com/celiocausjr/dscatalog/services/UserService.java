@@ -110,7 +110,7 @@ public class UserService implements UserDetailsService {
 			throw new UsernameNotFoundException("Email não encontrado");
 		}
 		
-			logger.info("User found" + username);
+			logger.info("User found: " + username);
 
 		return user;
 	}

@@ -136,7 +136,7 @@ public class User implements UserDetails, Serializable {
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
