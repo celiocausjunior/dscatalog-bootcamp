@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Admin from './pages/Admin';
 import Navbar from './core/components/Navbar';
 import ProductDetails from './pages/Catalog/components/ProductDetails';
-
+import Auth from './pages/Auth';
 
 const Routes = () => (
     <BrowserRouter>
@@ -19,6 +19,9 @@ const Routes = () => (
                 </Route>
                 <Route path="/products/:productId">
                     <ProductDetails />
+                </Route>
+                <Route path="/admin/auth">
+                <Auth />
                 </Route>
                 <Redirect from="/admin" to="/admin/products" exact/>
                 <Route path="/admin">
