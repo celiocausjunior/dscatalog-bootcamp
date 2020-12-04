@@ -31,7 +31,7 @@ public class User implements UserDetails, Serializable {
 	private Long id;
 	private String firstName;
 	private String lastName;
-
+	
 	@Column(unique = true)
 	private String email;
 	private String password;
