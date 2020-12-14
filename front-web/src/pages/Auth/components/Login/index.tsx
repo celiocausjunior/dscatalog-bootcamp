@@ -40,34 +40,34 @@ const Login = () => {
             )}
             <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
                 <div className="margin-bottom-30">
-                    <input type="email" className="form-control input-base "
+                    <input type="email" className={`form-control input-base ${errors.username ? 'is-invalid' : ''} `}
                         placeholder="Email"
                         name="username"
                         ref={register({
                             required: "Campo obrigatório",
                             pattern: {
-                              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                              message: "Email inválido"
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: "Email inválido"
                             }
-                          })}
+                        })}
                     />
                     {errors.username && (
                         <div className="invalid-feedback d-block">
-                            Campo inválido
+                            {errors.username.message}
                         </div>
                     )}
                 </div>
 
                 <div className="margin-bottom-30">
-                    <input type="password" className="form-control input-base "
+                    <input type="password" className={`form-control input-base ${errors.password ? 'is-invalid' : ''} `}
                         placeholder="Senha"
                         name="password"
-                        ref={register({ required: true })}
+                        ref={register({ required: "Campo obrigatório" })}
                     />
 
-                    {errors.username && (
+                    {errors.password && (
                         <div className="invalid-feedback d-block">
-                            Campo inválido
+                            {errors.password.message}
                         </div>
                     )}
 
