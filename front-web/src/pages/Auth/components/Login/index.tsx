@@ -8,7 +8,7 @@ import AuthCard from '../AuthCard';
 import './styles.scss';
 
 
-type FormData = {
+type FormState = {
     username: string;
     password: string;
 }
@@ -18,7 +18,7 @@ type FormData = {
     }
 
 const Login = () => {
-    const { register, handleSubmit, errors } = useForm<FormData>();
+    const { register, handleSubmit, errors } = useForm<FormState>();
 
     const [hasError, setHasError] = useState(false);
     const history = useHistory();
@@ -26,7 +26,7 @@ const Login = () => {
 
     const { from } = location.state || { from: { pathname: "/admin" } };
 
-    const onSubmit = (data: FormData) => {
+    const onSubmit = (data: FormState) => {
         console.log(data);
         makeLogin(data)
             .then(response => {

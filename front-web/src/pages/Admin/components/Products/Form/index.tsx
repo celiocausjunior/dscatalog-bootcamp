@@ -1,84 +1,63 @@
-import { makePrivateRequest } from 'core/utils/request';
-import React, { useState } from 'react';
+import React from 'react';
 import BaseForm from '../../BaseForm';
+import { useForm } from 'react-hook-form';
 import './styles.scss';
+import { makePrivateRequest } from 'core/utils/request';
 
-type FormState ={
-    name?:string;
-    price?:string;
-    category?:string;
-    description?:string;
+type FormState = {
+    name?: string;
+    price?: string;
+    description?: string;
+    imageUrl?: string;
 }
 
-type FormEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
 
 const Form = () => {
-    const [formData, setFormData] = useState<FormState>({});
+    const { register, handleSubmit } = useForm<FormState>();
 
-    const handleOnChange = (event:FormEvent) => {
-        const name = event.target.name;
-        const value = event.target.value;
+    const onSubmit = (data: FormState) => {
 
-        setFormData(data => ({...data, [name]: value}));
-    }
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const payload ={
-            ...formData,
-            imgUrl: 'https://images5.kabum.com.br/produtos/fotos/128245/console-sony-playstation-5-digital-edition_1600364532_g.jpg',
-            categories: [{ id: formData.category }]
-        }
-        console.log(payload);
-
-        makePrivateRequest({ url: '/products', method:'POST', data: payload })
-        .then (()=> {
-            setFormData({name: '', category: '', price: '', description: ''})
-        });
+        makePrivateRequest({ url: '/products', method: 'POST', data: data })
     }
 
 
     return (
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <BaseForm title="CADASTRAR UM PRODUTO">
                 <div className="row">
                     <div className="col-6">
                         <input
-                            value={formData.name}
+                            ref={register({ required: "Campo obrigatório" })}
                             name="name"
                             type="text"
-                            className="form-control mb-5"
-                            onChange={handleOnChange}
+                            className="form-control input-base margin-bottom-30"
                             placeholder="Nome do produto"
                         />
-                        <select
-                            className="form-control mb-5"
-                            onChange={handleOnChange}
-                            value={formData.category}
-                            name="category"
-                        >
-                            <option value="1">Livros</option>
-                            <option value="3">Computadores</option>
-                            <option value="2">Eletrônicos</option>
-                        </select>
+
                         <input
-                            value={formData.price}
+                            ref={register({ required: "Campo obrigatório" })}
                             name="price"
-                            type="text"
-                            className="form-control"
-                            onChange={handleOnChange}
+                            type="number"
+                            className="form-control input-base margin-bottom-30"
                             placeholder="Preço"
+                        />
+                        <input
+                            ref={register({ required: "Campo obrigatório" })}
+                            name="imageUrl"
+                            type="text"
+                            className="form-control input-base margin-bottom-30"
+                            placeholder="Imagem do Produto"
                         />
                     </div>
                     <div className="col-6">
                         <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleOnChange}
-                        className="form-control"
-                        cols={30}
-                        rows={10}/>
+                            ref={register({ required: "Campo obrigatório" })}
+                            name="description"
+                            className="form-control input-base"
+                            placeholder="Descrição"
+                            cols={30}
+                            rows={10} />
                     </div>
                 </div>
             </BaseForm>
