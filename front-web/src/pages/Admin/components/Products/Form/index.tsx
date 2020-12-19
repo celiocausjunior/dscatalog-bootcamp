@@ -13,7 +13,7 @@ type FormState = {
 
 
 const Form = () => {
-    const { register, handleSubmit } = useForm<FormState>();
+    const { register, handleSubmit, errors } = useForm<FormState>();
 
     const onSubmit = (data: FormState) => {
 
@@ -27,28 +27,55 @@ const Form = () => {
             <BaseForm title="CADASTRAR UM PRODUTO">
                 <div className="row">
                     <div className="col-6">
-                        <input
-                            ref={register({ required: "Campo obrigatório" })}
-                            name="name"
-                            type="text"
-                            className="form-control input-base margin-bottom-30"
-                            placeholder="Nome do produto"
-                        />
 
-                        <input
-                            ref={register({ required: "Campo obrigatório" })}
-                            name="price"
-                            type="number"
-                            className="form-control input-base margin-bottom-30"
-                            placeholder="Preço"
-                        />
-                        <input
-                            ref={register({ required: "Campo obrigatório" })}
-                            name="imageUrl"
-                            type="text"
-                            className="form-control input-base margin-bottom-30"
-                            placeholder="Imagem do Produto"
-                        />
+                        <div className="margin-bottom-30">
+                            <input
+                                ref={register({ required: "Campo obrigatório" })}
+                                name="name"
+                                type="text"
+                                className="form-control input-base "
+                                placeholder="Nome do produto"
+                            />
+                            {errors.name && (
+                                <div className="invalid-feedback d-block">
+                                    {errors.name.message}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="margin-bottom-30">
+                            <input
+                                ref={register({ required: "Campo obrigatório" })}
+                                name="price"
+                                type="number"
+                                className="form-control input-base"
+                                placeholder="Preço"
+                            />
+                            {errors.price && (
+                                <div className="invalid-feedback d-block">
+                                    {errors.price.message}
+                                </div>
+                            )}
+                        </div>
+                        <div className="margin-bottom-30">
+                            <input
+                                ref={register({ 
+                                    required: "Campo obrigatório",
+                                    minLength:{ value: 5,  message: "O campo deve ter no mínimo cinco caracteres"},
+                                    maxLength:{ value: 60,  message: "O campo deve ter no máximo sessenta caracteres"}
+
+                                })}
+                                name="imageUrl"
+                                type="text"
+                                className="form-control input-base "
+                                placeholder="Imagem do Produto"
+                            />
+                            {errors.imageUrl && (
+                                <div className="invalid-feedback d-block">
+                                    {errors.imageUrl.message}
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <div className="col-6">
                         <textarea
@@ -58,6 +85,11 @@ const Form = () => {
                             placeholder="Descrição"
                             cols={30}
                             rows={10} />
+                        {errors.description && (
+                            <div className="invalid-feedback d-block">
+                                {errors.description.message}
+                            </div>
+                        )}
                     </div>
                 </div>
             </BaseForm>
