@@ -1,11 +1,18 @@
-.admin-container{
-    display:flex;
-    
-
+.admin-container {
+    display: flex;
 }
 
-
-.admin-content{
+.admin-content {
     padding: 25px 40px 45px 40px;
-    flex:1;
+    flex: 1;
+}
+
+.admin-list-container{
+    margin-top: 45px;
+    margin-bottom: 45px;  
+}
+
+.btn-edit{
+    color:#9E9E9E;
+    
 }
