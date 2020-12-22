@@ -3,6 +3,7 @@ import { ProductsResponse } from 'core/types/Product';
 import { makeRequest } from 'core/utils/request';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { idText } from 'typescript';
 import Card from '../Card'
 
 
@@ -18,7 +19,9 @@ const List = () => {
 
         const params = {
             page: activePage,
-            linesPerPage: 4
+            linesPerPage: 4,
+            direction : 'DESC',
+            orderBy: 'id'
         }
 
         setIsLoading(true);

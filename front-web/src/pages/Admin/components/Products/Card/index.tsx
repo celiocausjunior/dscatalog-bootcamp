@@ -1,6 +1,7 @@
 import { Product } from 'core/types/Product';
 import ProductPrice from 'pages/Catalog/components/ProductPrice';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './styles.scss'
 
 
@@ -34,8 +35,8 @@ const Card = ({ product }: Props) => {
                     </div>
                 </div>
                 <div className="col-3 pt-3 pr-5">
-                    <button type="button" className="btn btn-outline-secondary btn-block border-radius-10 mb-3 btn-edit">EDITAR</button>
-                    <button type="button" className="btn btn-outline-danger btn-block border-radius-10 ">EXCLUIR</button>
+                    <Link to ={`/admin/products/${product.id}`} type="button" className="btn btn-outline-secondary btn-block border-radius-10 mb-3 btn-edit">EDITAR</Link>
+                    <Link to ={`/admin/products/${product.id}`} type="button" className="btn btn-outline-danger btn-block border-radius-10 ">EXCLUIR</Link>
                 </div>
             </div>
         </div>
