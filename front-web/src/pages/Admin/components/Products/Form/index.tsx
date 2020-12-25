@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BaseForm from '../../BaseForm';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import './styles.scss';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
@@ -13,6 +13,7 @@ type FormState = {
     price?: string;
     description?: string;
     imgUrl?: string;
+    categories?: Category[];
 }
 
 type ParamsType = {
@@ -20,7 +21,7 @@ type ParamsType = {
 }
 
 const Form = () => {
-    const { register, handleSubmit, errors, setValue } = useForm<FormState>();
+    const { register, handleSubmit, errors, setValue, control } = useForm<FormState>();
     const history = useHistory();
     const { productId } = useParams<ParamsType>();
     const [categories, setCategories] = useState<Category[]>([]);
@@ -36,6 +37,7 @@ const Form = () => {
                     setValue('price', response.data.price);
                     setValue('description', response.data.description);
                     setValue('imgUrl', response.data.imgUrl);
+                    setValue('categories', response.data.categories);
                 })
         }
     }, [productId, isEditing, setValue]);
@@ -90,14 +92,24 @@ const Form = () => {
                             )}
                         </div>
                         <div className="margin-bottom-30">
-                            <Select options={categories}
+                            <Controller
+                            as={Select}
+                            name="categories"
+                            rules={{ required:true}}
+                            options={categories}
+                            control={control}
+                            isLoading={isLoadingCategories}
                             getOptionLabel={(option: Category)=> option.name} 
                             getOptionValue={(option: Category)=> String(option.id)} 
-
                             isMulti
                             classNamePrefix="categories-select"
-                            placeholder="Categoria"
+                            placeholder="Categorias"
                             />
+                             {errors.categories && (
+                                <div className="invalid-feedback d-block">
+                                    Campo Obrigatório
+                                </div>
+                            )}
 
                         </div>
                         <div className="margin-bottom-30">
