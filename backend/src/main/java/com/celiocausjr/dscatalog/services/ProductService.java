@@ -1,5 +1,6 @@
 package com.celiocausjr.dscatalog.services;
 
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +14,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.celiocausjr.dscatalog.dto.CategoryDTO;
 import com.celiocausjr.dscatalog.dto.ProductDTO;
+import com.celiocausjr.dscatalog.dto.UriDTO;
 import com.celiocausjr.dscatalog.entities.Category;
 import com.celiocausjr.dscatalog.entities.Product;
 import com.celiocausjr.dscatalog.repositories.CategoryRepository;
@@ -28,9 +31,12 @@ public class ProductService {
 
 	@Autowired
 	private ProductRepository repository;
-	
+
 	@Autowired
 	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private S3Service s3Service;
 
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAllPaged(PageRequest page, Long categoryId, String name) {
@@ -85,12 +91,18 @@ public class ProductService {
 		entity.setDescription(dto.getDescription());
 		entity.setImgUrl(dto.getImgUrl());
 		entity.setPrice(dto.getPrice());
-		
+
 		entity.getCategories().clear();
-		for(CategoryDTO catDto : dto.getCategories()) {
+		for (CategoryDTO catDto : dto.getCategories()) {
 			Category category = categoryRepository.getOne(catDto.getId());
 			entity.getCategories().add(category);
 		}
+	}
+
+	public UriDTO uploadFile(MultipartFile file) {
+		URL url = s3Service.uploadFile(file);
+		return new UriDTO(url.toString());
+
 	}
 
 }
