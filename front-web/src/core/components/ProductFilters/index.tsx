@@ -6,31 +6,45 @@ import { Category } from 'core/types/Product';
 import { makeRequest } from 'core/utils/request';
 
 export type FilterForm = {
-    name?:string;
-    categoryId?:number;
+    name?: string;
+    categoryId?: number;
 }
 
 type Props = {
     onSearch: (filter: FilterForm) => void;
 }
 
-const ProductFilters = ({onSearch}:Props) => {
+const ProductFilters = ({ onSearch }: Props) => {
 
     const [categories, setCategories] = useState<Category[]>([]);
     const [isLoadingCategories, setIsLoadingCategories] = useState(false);
     const [name, setName] = useState('');
+    const [category, setCategory] = useState<Category>();
 
 
     useEffect(() => {
         setIsLoadingCategories(true);
-        makeRequest ({url:'/categories'})
-        .then(response => setCategories(response.data.content))
-        .finally(() => setIsLoadingCategories(false)) 
+        makeRequest({ url: '/categories' })
+            .then(response => setCategories(response.data.content))
+            .finally(() => setIsLoadingCategories(false))
     }, [])
-    
+
     const handleChangeName = (name: string) => {
         setName(name);
-        onSearch({name});
+        onSearch({ name, categoryId: category?.id })
+    }
+
+    const handleChangeCategory = (category: Category) => {
+        setCategory(category);
+
+        onSearch({ name, categoryId: category?.id })
+    }
+
+    const clearFilters = () => {
+        setCategory(undefined);
+        setName('');
+
+        onSearch({ name: '', categoryId: undefined })
     }
 
     return (
@@ -48,6 +62,8 @@ const ProductFilters = ({onSearch}:Props) => {
             </div>
             <Select
                 name="categories"
+                key={`select-${category?.id}`}
+                value={category}
                 options={categories}
                 isLoading={isLoadingCategories}
                 getOptionLabel={(option: Category) => option.name}
@@ -56,10 +72,13 @@ const ProductFilters = ({onSearch}:Props) => {
                 classNamePrefix="product-categories-select"
                 placeholder="Categorias"
                 inputId="categories"
-                
+                onChange={value => handleChangeCategory(value as Category)}
+                isClearable
             />
-            <button className="btn btn-outline-secondary border-radius-10">
-                 LIMPAR FILTRO
+            <button className="btn btn-outline-secondary border-radius-10"
+                onClick={clearFilters}
+            >
+                LIMPAR FILTRO
             </button>
         </div>
     );
