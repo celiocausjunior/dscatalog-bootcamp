@@ -1,4 +1,5 @@
 import Pagination from 'core/components/Pagination';
+import ProductFilters from 'core/components/ProductFilters';
 import { ProductsResponse } from 'core/types/Product';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import React, { useEffect, useState, useCallback } from 'react';
@@ -6,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Card from '../Card'
 import CardLoader from '../Loaders/ProductCardLoader'
+import './styles.scss'
 
 const List = () => {
     const history = useHistory();
@@ -42,25 +44,30 @@ const List = () => {
     const onRemove = (productId: number) => {
         const confirm = window.confirm('Deseja realmente excluir o produto selecionado?');
 
-       if (confirm){
-        makePrivateRequest({ url: `/products/${productId}`, method: 'DELETE' })
-        .then(() => {
-            toast.info("Produto removido com sucesso!");
-            getProducts();
-        })
-        .catch(() => {
-            toast.error("Erro ao excluir o produto");
-        })
-       }
+        if (confirm) {
+            makePrivateRequest({ url: `/products/${productId}`, method: 'DELETE' })
+                .then(() => {
+                    toast.info("Produto removido com sucesso!");
+                    getProducts();
+                })
+                .catch(() => {
+                    toast.error("Erro ao excluir o produto");
+                })
+        }
     }
 
     return (
         <div className="admin-products-list">
+           <div className="d-flex">
             <button className="btn btn-primary btn-lg" onClick={handleCreate}>
                 ADICIONAR
-            </button>
+                </button>
+            <span className="admin-product-filter ml-5 justify-center">
+                <ProductFilters onSearch={filter => getProducts()} />
+            </span>
+            </div>
             <div className="admin-list-container">
-                {isLoading ? <CardLoader/> : (
+                {isLoading ? <CardLoader /> : (
                     productsResponse?.content.map(product => (
                         <Card product={product} key={product.id} onRemove={onRemove} />
                     ))
