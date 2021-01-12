@@ -31,10 +31,7 @@ const Catalog = () => {
     }, [activePage]);
 
     useEffect(() => {
-
         getProducts();
-
-
     }, [getProducts]);
 
     return (
@@ -43,7 +40,7 @@ const Catalog = () => {
                 <h1 className="catalog-title">
                     Catálogo de produtos
             </h1>
-                <ProductFilters onSearch={filter => getProducts(filter)}/>
+                <ProductFilters onSearch={filter => getProducts(filter)} />
             </div>
             <div className="catalog-products">
                 {isLoading ? <ProductCardLoader /> : (

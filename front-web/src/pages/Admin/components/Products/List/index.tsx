@@ -1,5 +1,5 @@
 import Pagination from 'core/components/Pagination';
-import ProductFilters from 'core/components/ProductFilters';
+import ProductFilters, { FilterForm } from 'core/components/ProductFilters';
 import { ProductsResponse } from 'core/types/Product';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import React, { useEffect, useState, useCallback } from 'react';
@@ -15,12 +15,14 @@ const List = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [activePage, setActivePage] = useState(0);
 
-    const getProducts = useCallback(() => {
+    const getProducts = useCallback((filter?:FilterForm) => {
         const params = {
             page: activePage,
             linesPerPage: 4,
             direction: 'DESC',
-            orderBy: 'id'
+            orderBy: 'id',
+            name: filter?.name,
+            categoryId: filter?.categoryId
         }
 
         setIsLoading(true);
@@ -34,8 +36,6 @@ const List = () => {
     useEffect(() => {
         getProducts();
     }, [getProducts]);
-
-
 
     const handleCreate = () => {
         history.push("/admin/products/create");
@@ -63,7 +63,7 @@ const List = () => {
                 ADICIONAR
                 </button>
             <span className="admin-product-filter ml-5 justify-center">
-                <ProductFilters onSearch={filter => getProducts()} />
+                <ProductFilters onSearch={filter => getProducts(filter)} />
             </span>
             </div>
             <div className="admin-list-container">
