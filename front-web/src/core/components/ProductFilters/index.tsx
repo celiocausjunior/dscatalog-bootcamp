@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './styles.scss';
 import { ReactComponent as SearchIcon } from 'core/assets/images/search-icon.svg'
 import Select from 'react-select';
-import { Category } from 'core/types/Product';
+import { Category } from 'core/types/Categories';
 import { makeRequest } from 'core/utils/request';
 
 export type FilterForm = {

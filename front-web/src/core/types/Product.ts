@@ -1,3 +1,5 @@
+import { Category } from './Categories';
+
 export type ProductsResponse = {
     content: Product[];
     totalPages: number;
@@ -11,16 +13,4 @@ export type Product = {
     imgUrl: string;
     date: string;
     categories: Category[];
-}
-
-
-export type CategoryResponse = {
-    content: Category [];
-    totalPages: number;
-}
-
-export type Category = {
-    
-    id: number;
-    name: string;
 }

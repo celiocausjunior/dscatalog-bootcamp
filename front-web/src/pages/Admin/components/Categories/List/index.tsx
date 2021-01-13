@@ -1,7 +1,8 @@
-import ProductFilters, { FilterForm } from 'core/components/ProductFilters';
-import { Category, CategoryResponse } from 'core/types/Product';
+import Pagination from 'core/components/Pagination';
+import ProductFilters, {  } from 'core/components/ProductFilters';
+import {  CategoryResponse } from 'core/types/Categories';
 import { makeRequest } from 'core/utils/request';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Card from '../Card';
 import './styles.scss'
@@ -44,6 +45,12 @@ const List = () => {
                 ))}
 
             </div>
+
+            {categoriesResponse && <Pagination
+                totalPages = {categoriesResponse?.totalPages}
+                activePage = {activePage}
+                onChange = {page => setActivePage(page)}
+            />}
         </div>
     )
 }

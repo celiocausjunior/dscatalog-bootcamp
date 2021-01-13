@@ -1,4 +1,4 @@
-import { Category } from 'core/types/Product';
+import { Category } from 'core/types/Categories';
 import ProductCard from 'pages/Catalog/components/ProductCard';
 import React from 'react';
 import { Link } from 'react-router-dom';

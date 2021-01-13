@@ -6,7 +6,7 @@ import './styles.scss';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import { useHistory, useParams } from 'react-router-dom';
 import Select from 'react-select';
-import { Category } from 'core/types/Product';
+import { Category } from 'core/types/Categories';
 
 type FormState = {
     name?: string;
