@@ -1,9 +1,32 @@
-import ProductFilters from 'core/components/ProductFilters';
-import React from 'react';
+import ProductFilters, { FilterForm } from 'core/components/ProductFilters';
+import { Category, CategoryResponse } from 'core/types/Product';
+import { makeRequest } from 'core/utils/request';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Card from '../Card';
 import './styles.scss'
 
 const List = () => {
+    const [categoriesResponse, setCategoriesResponse] = useState<CategoryResponse>();
+    const [isLoading, setIsLoading] = useState(false);
+    const [activePage, setActivePage] = useState(0);
+    const history = useHistory;
+
+    console.log(categoriesResponse);
+
+    useEffect(() => {
+        const params = {
+            page: activePage,
+            linesPerPage: 4
+        }
+        setIsLoading(true);
+        makeRequest({ url: '/categories', params })
+            .then(response => setCategoriesResponse(response.data))
+            .finally(() => {
+                setIsLoading(false);
+            })
+    }, [activePage]);
+
     return (
         <div className="admin-products-list">
             <div className="d-flex">
@@ -16,10 +39,10 @@ const List = () => {
             </div>
 
             <div className="admin-list-container">
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+                {categoriesResponse?.content.map(category => (
+                    <Card category={category} key={category.id} />
+                ))}
+
             </div>
         </div>
     )
