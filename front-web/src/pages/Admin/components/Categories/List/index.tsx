@@ -11,10 +11,12 @@ const List = () => {
     const [categoriesResponse, setCategoriesResponse] = useState<CategoryResponse>();
     const [isLoading, setIsLoading] = useState(false);
     const [activePage, setActivePage] = useState(0);
-    const history = useHistory;
+    const history = useHistory();
 
-    console.log(categoriesResponse);
-
+    const handleCreate = () => {
+        history.push('/admin/categories/create')
+    }
+    
     useEffect(() => {
         const params = {
             page: activePage,
@@ -31,7 +33,7 @@ const List = () => {
     return (
         <div className="admin-products-list">
             <div className="d-flex">
-                <button className="btn btn-primary btn-lg" onClick={console.log}>
+                <button className="btn btn-primary btn-lg" onClick={handleCreate}>
                     ADICIONAR
                 </button>
                 <span className="admin-product-filter ml-5 justify-center">
