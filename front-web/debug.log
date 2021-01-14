@@ -4,3 +4,4 @@
 [1208/183742.419:ERROR:exception_snapshot_win.cc(99)] thread ID 17060 not found in process
 [0109/181203.542:ERROR:directory_reader_win.cc(43)] FindFirstFile: O sistema não pode encontrar o caminho especificado. (0x3)
 [0113/200946.009:ERROR:directory_reader_win.cc(43)] FindFirstFile: O sistema não pode encontrar o caminho especificado. (0x3)
+[0114/131126.021:ERROR:directory_reader_win.cc(43)] FindFirstFile: O sistema não pode encontrar o caminho especificado. (0x3)
