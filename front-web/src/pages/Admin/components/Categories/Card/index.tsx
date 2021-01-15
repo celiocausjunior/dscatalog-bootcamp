@@ -19,7 +19,7 @@ const Card = ({ category }: Props) => {
                     {category?.name}
                 </div>
                 <div className="col-5 py-4">
-                    <Link to={`/admin/categories/`}
+                    <Link to={`/admin/categories/${category.id}`}
                         type="button"
                         className="btn btn-outline-secondary categories-edit-button border-radius-10 mr-5">
                         EDITAR
