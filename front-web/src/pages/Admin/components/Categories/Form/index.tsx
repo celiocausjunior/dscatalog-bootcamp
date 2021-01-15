@@ -2,17 +2,28 @@ import { makePrivateRequest } from 'core/utils/request';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import BaseForm from '../../BaseForm';
+import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
+
 
 type FormState = {
-    category: string;
+    name: string;
 }
 
 const Form = () => {
     const { register, handleSubmit, errors } = useForm<FormState>();
+    const history = useHistory();
 
-    const onSubmit = (formData: FormState) => {
-        console.log(formData);
-        makePrivateRequest({ url: '/categories', method: 'POST', data: formData })
+    const onSubmit = (data: FormState) => {
+        console.log(data);
+        makePrivateRequest({ url: '/categories', method: 'POST', data})
+        .then(() => {
+            toast.info('Categoria cadastrada com sucesso!');
+            history.push('/admin/categories')
+        })
+        .catch(() => {
+            toast.error('Erro ao cadastrar categoria!');
+        })
     }
 
     return (
@@ -25,16 +36,16 @@ const Form = () => {
                                 ref={register({ 
                                     required: "Campo obrigatório",
                                     minLength: { value: 5, message:"O campo deve ter no mínimo 5 caracteres"},
-                                    maxLength: { value: 5, message:"O campo deve ter no máximo 60 caracteres"},
+                                    maxLength: { value: 60, message:"O campo deve ter no máximo 60 caracteres"},
                                 })}
-                                name="category"
+                                name="name"
                                 type="text"
                                 className="form-control"
                                 placeholder="Nome da categoria"
                             />
-                            {errors.category && (
+                            {errors.name && (
                                 <div className="invalid-feedback d-block">
-                                    {errors.category.message}
+                                    {errors.name.message}
                                 </div>
                             )}
                         </div>
