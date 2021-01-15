@@ -12,9 +12,14 @@ const List = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [activePage, setActivePage] = useState(0);
     const history = useHistory();
+    
 
     const handleCreate = () => {
         history.push('/admin/categories/create')
+    }
+
+    const onRemove = (categoryId: number) => {
+        console.log (categoryId);
     }
     
     useEffect(() => {
@@ -43,7 +48,7 @@ const List = () => {
 
             <div className="admin-list-container">
                 {categoriesResponse?.content.map(category => (
-                    <Card category={category} key={category.id} />
+                    <Card category={category} key={category.id} onRemove={onRemove} />
                 ))}
 
             </div>

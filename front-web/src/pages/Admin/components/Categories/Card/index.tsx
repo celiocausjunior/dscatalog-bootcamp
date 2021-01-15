@@ -8,10 +8,11 @@ import './styles.scss';
 
 type Props = {
     category: Category;
+    onRemove: (categoryId: number) => void;
 }
 
 
-const Card = ({ category }: Props) => {
+const Card = ({ category, onRemove }: Props) => {
     return (
         <div className="card-base categories-card-admin">
             <div className="row">
@@ -27,6 +28,7 @@ const Card = ({ category }: Props) => {
                     <button
                         type="button"
                         className="btn btn-outline-danger categories-delete-button border-radius-10"
+                        onClick={() => onRemove(category.id)}
                     >
                         EXCLUIR
                     </button>

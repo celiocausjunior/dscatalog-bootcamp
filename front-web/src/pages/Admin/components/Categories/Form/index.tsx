@@ -19,6 +19,7 @@ const Form = () => {
     const history = useHistory();
     const { categoryId } = useParams<ParamsType>(); //captura id dinâmico da Url
     const isEditing = categoryId !== 'create';
+    const formTitle = isEditing ? "EDITAR UMA CATEGORIA" : "CADASTRAR UMA CATEGORIA";
 
     useEffect(() => {
         if (isEditing) {
@@ -46,7 +47,9 @@ const Form = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <BaseForm title="CADASTRAR UMA CATEGORIA">
+            <BaseForm 
+            title={formTitle}
+            >
                 <div className="row">
                     <div className="col-6">
                         <div>
