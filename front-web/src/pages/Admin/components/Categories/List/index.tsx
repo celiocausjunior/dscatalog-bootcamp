@@ -1,11 +1,12 @@
 import Pagination from 'core/components/Pagination';
-import ProductFilters, {  } from 'core/components/ProductFilters';
-import {  CategoryResponse } from 'core/types/Categories';
+import ProductFilters, { } from 'core/components/ProductFilters';
+import { CategoryResponse } from 'core/types/Categories';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Card from '../Card';
+import CardLoader from '../../../../../core/components/Loaders/CardLoader'
 import './styles.scss'
 
 const List = () => {
@@ -25,8 +26,8 @@ const List = () => {
             .finally(() => {
                 setIsLoading(false);
             })
-    },[activePage]);
-    
+    }, [activePage]);
+
 
     const handleCreate = () => {
         history.push('/admin/categories/create')
@@ -34,21 +35,21 @@ const List = () => {
 
     const onRemove = (categoryId: number) => {
         const confirm = window.confirm('Deseja realmente excluir esta categoria?')
-        
+
         if (confirm) {
-            makePrivateRequest({url: `/categories/${categoryId}`, method: 'DELETE'})
-        .then(() => {
-            toast.info('Categoria removida com sucesso!');
-            getCategories();
-        })
-        .catch(()=> {
-            toast.error('Erro ao remover produto. Categoria vinculada a um produto cadastrado.')
-        })
+            makePrivateRequest({ url: `/categories/${categoryId}`, method: 'DELETE' })
+                .then(() => {
+                    toast.info('Categoria removida com sucesso!');
+                    getCategories();
+                })
+                .catch(() => {
+                    toast.error('Erro ao remover produto. Categoria vinculada a um produto cadastrado.')
+                })
         }
     }
-    
+
     useEffect(() => {
-       getCategories();
+        getCategories();
     }, [getCategories]);
 
     return (
@@ -62,17 +63,19 @@ const List = () => {
                 </span>
             </div>
 
-            <div className="admin-list-container">
-                {categoriesResponse?.content.map(category => (
-                    <Card category={category} key={category.id} onRemove={onRemove} />
-                ))}
+            {isLoading ? <CardLoader /> : (
+                <div className="admin-list-container">
+                    {categoriesResponse?.content.map(category => (
+                        <Card category={category} key={category.id} onRemove={onRemove} />
+                    ))}
+                </div>
+            )}
 
-            </div>
 
             {categoriesResponse && <Pagination
-                totalPages = {categoriesResponse?.totalPages}
-                activePage = {activePage}
-                onChange = {page => setActivePage(page)}
+                totalPages={categoriesResponse?.totalPages}
+                activePage={activePage}
+                onChange={page => setActivePage(page)}
             />}
         </div>
     )

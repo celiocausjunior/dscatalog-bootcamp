@@ -6,7 +6,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Card from '../Card'
-import CardLoader from '../Loaders/ProductCardLoader'
+import CardLoader from '../../../../../core/components/Loaders/CardLoader'
 import './styles.scss'
 
 const List = () => {
