@@ -1,5 +1,5 @@
 import Pagination from 'core/components/Pagination';
-import ProductFilters, { FilterForm } from 'core/components/ProductFilters';
+import ProductFilters, { FilterForm } from 'pages/Admin/components/Products/Filter';
 import { ProductsResponse } from 'core/types/Product';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import React, { useEffect, useState, useCallback } from 'react';

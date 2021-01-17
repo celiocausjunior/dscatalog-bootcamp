@@ -1,5 +1,4 @@
 import Pagination from 'core/components/Pagination';
-import ProductFilters, { } from 'core/components/ProductFilters';
 import { CategoryResponse } from 'core/types/Categories';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -9,16 +8,18 @@ import Card from '../Card';
 import CardLoader from '../../../../../core/components/Loaders/CardLoader'
 import './styles.scss'
 
+
 const List = () => {
     const [categoriesResponse, setCategoriesResponse] = useState<CategoryResponse>();
     const [isLoading, setIsLoading] = useState(false);
     const [activePage, setActivePage] = useState(0);
     const history = useHistory();
 
+
     const getCategories = useCallback(() => {
         const params = {
             page: activePage,
-            linesPerPage: 4
+            linesPerPage: 4,
         }
         setIsLoading(true);
         makeRequest({ url: '/categories', params })
@@ -28,6 +29,9 @@ const List = () => {
             })
     }, [activePage]);
 
+    useEffect(() => {
+        getCategories();
+    }, [getCategories]);
 
     const handleCreate = () => {
         history.push('/admin/categories/create')
@@ -48,9 +52,6 @@ const List = () => {
         }
     }
 
-    useEffect(() => {
-        getCategories();
-    }, [getCategories]);
 
     return (
         <div className="admin-products-list">
@@ -58,9 +59,6 @@ const List = () => {
                 <button className="btn btn-primary btn-lg" onClick={handleCreate}>
                     ADICIONAR
                 </button>
-                <span className="admin-product-filter ml-5 justify-center">
-                    <ProductFilters onSearch={filter => console.log} />
-                </span>
             </div>
 
             {isLoading ? <CardLoader /> : (

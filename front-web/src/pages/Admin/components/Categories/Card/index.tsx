@@ -1,9 +1,6 @@
 import { Category } from 'core/types/Categories';
-import ProductCard from 'pages/Catalog/components/ProductCard';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { DiagnosticCategory } from 'typescript';
-import Categories from '..';
 import './styles.scss';
 
 type Props = {

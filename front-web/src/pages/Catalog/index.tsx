@@ -6,7 +6,7 @@ import { makeRequest } from 'core/utils/request';
 import { ProductsResponse } from 'core/types/Product';
 import ProductCardLoader from './components/Loaders/ProductCardLoader';
 import Pagination from 'core/components/Pagination';
-import ProductFilters, { FilterForm } from 'core/components/ProductFilters';
+import ProductFilters, { FilterForm } from 'pages/Admin/components/Products/Filter';
 
 const Catalog = () => {
 
