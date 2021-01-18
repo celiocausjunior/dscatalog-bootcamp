@@ -12,7 +12,6 @@ export type UsersResponse = {
     totalPages: number;
 }
 
-
 export type Roles = {
     id: number;
     authority: string;

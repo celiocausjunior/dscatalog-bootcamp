@@ -9,7 +9,8 @@ import './styles.scss'
 import { UsersResponse } from 'core/types/Users';
 
 
-const List = () => {
+
+const List = ( ) => {
     const [usersResponse, setUsersResponse] = useState<UsersResponse>();
     const [isLoading, setIsLoading] = useState(false);
     const [activePage, setActivePage] = useState(0);
@@ -37,17 +38,17 @@ const List = () => {
         history.push('/admin/users/create')
     }
 
-    const onRemove = (categoryId: number) => {
+    const onRemove = (usersId: number) => {
         const confirm = window.confirm('Deseja realmente excluir este usuario?')
 
         if (confirm) {
-            makePrivateRequest({ url: `/categories/${categoryId}`, method: 'DELETE' })
+            makePrivateRequest({ url: `/users/${usersId}`, method: 'DELETE' })
                 .then(() => {
                     toast.info('Usuario removido com sucesso!');
                     getUsers();
                 })
                 .catch(() => {
-                    toast.error('Erro ao remover usuario.')
+                    toast.error('Erro ao remover usuario. Informe ao administrador')
                 })
         }
     }
