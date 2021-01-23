@@ -7,6 +7,7 @@ import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import { useHistory, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { Category } from 'core/types/Categories';
+import ImageUpload from '../ImageUpload';
 
 type FormState = {
     name?: string;
@@ -45,9 +46,9 @@ const Form = () => {
 
     useEffect(() => {
         setIsLoadingCategories(true);
-        makeRequest ({url:'/categories'})
-        .then(response => setCategories(response.data.content))
-        .finally(() => setIsLoadingCategories(false)) 
+        makeRequest({ url: '/categories' })
+            .then(response => setCategories(response.data.content))
+            .finally(() => setIsLoadingCategories(false))
     }, [])
 
 
@@ -93,19 +94,19 @@ const Form = () => {
                         </div>
                         <div className="margin-bottom-30">
                             <Controller
-                            as={Select}
-                            name="categories"
-                            rules={{ required:true}}
-                            options={categories}
-                            control={control}
-                            isLoading={isLoadingCategories}
-                            getOptionLabel={(option: Category)=> option.name} 
-                            getOptionValue={(option: Category)=> String(option.id)} 
-                            isMulti
-                            classNamePrefix="categories-select"
-                            placeholder="Categorias"
+                                as={Select}
+                                name="categories"
+                                rules={{ required: true }}
+                                options={categories}
+                                control={control}
+                                isLoading={isLoadingCategories}
+                                getOptionLabel={(option: Category) => option.name}
+                                getOptionValue={(option: Category) => String(option.id)}
+                                isMulti
+                                classNamePrefix="categories-select"
+                                placeholder="Categorias"
                             />
-                             {errors.categories && (
+                            {errors.categories && (
                                 <div className="invalid-feedback d-block">
                                     Campo Obrigatório
                                 </div>
@@ -127,20 +128,7 @@ const Form = () => {
                             )}
                         </div>
                         <div className="margin-bottom-30">
-                            <input
-                                ref={register({
-                                    required: "Campo obrigatório",
-                                })}
-                                name="imgUrl"
-                                type="text"
-                                className="form-control input-base "
-                                placeholder="Imagem do Produto"
-                            />
-                            {errors.imgUrl && (
-                                <div className="invalid-feedback d-block">
-                                    {errors.imgUrl.message}
-                                </div>
-                            )}
+                                <ImageUpload />
                         </div>
                     </div>
                     <div className="col-6">
