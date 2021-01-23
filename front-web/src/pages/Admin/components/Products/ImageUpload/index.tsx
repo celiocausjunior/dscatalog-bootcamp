@@ -1,29 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ReactComponent as UploadPlaceHolder } from 'core/assets/images/upload-placeholder.svg'
 import './styles.scss'
 import { makePrivateRequest } from 'core/utils/request';
+import { toast } from 'react-toastify';
+
+
 
 const ImageUpload = () => {
-    const uploadImage =(selectedImage:File)=>{
+
+
+    const [uploadProgress, setUploadProgress] = useState(0);
+
+    const onUploadProgress = (progressEvent: ProgressEvent) => {
+        const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        setUploadProgress(progress);
+    }
+
+    const uploadImage = (selectedImage: File) => {
         const payload = new FormData();
         payload.append('file', selectedImage)
 
-            makePrivateRequest({
-                url:'/products/image', 
-                method: 'POST',
-                data: payload
+        makePrivateRequest({
+            url: '/products/image',
+            method: 'POST',
+            data: payload,
+            onUploadProgress
+        })
+            .then(() => {
+                toast.info('Arquivo enviado com sucesso!')
             })
-            .then(()=> {
-                console.log('arquivo enviado');
+            .catch(() => {
+                toast.error('Erro ao enviar arquivo!');
             })
-            .catch(()=> {
-                console.log('erro no envio do arquivo');
-                
-            })
+            .finally (()=> setUploadProgress(0));
     }
-    const handleChange =(event: React.ChangeEvent<HTMLInputElement>)=> {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedImage = event.target.files?.[0];
-        if(selectedImage){
+        if (selectedImage) {
             uploadImage(selectedImage);
         }
     }
@@ -49,7 +62,7 @@ const ImageUpload = () => {
                 <UploadPlaceHolder />
 
                 <div className="upload-progress-container">
-                    <div className="upload-progress">
+                    <div className="upload-progress" style={{width: `${uploadProgress}%`}}>
 
                     </div>
                 </div>
