@@ -4,12 +4,15 @@ import './styles.scss'
 import { makePrivateRequest } from 'core/utils/request';
 import { toast } from 'react-toastify';
 
+type Props = {
+    onUploadSuccess: (imgUrl: string) => void;
+}
 
-
-const ImageUpload = () => {
+const ImageUpload = ({onUploadSuccess}:Props) => {
 
 
     const [uploadProgress, setUploadProgress] = useState(0);
+    const [uploadedImgUrl, setUploadedImgUrl] = useState('');
 
     const onUploadProgress = (progressEvent: ProgressEvent) => {
         const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -26,13 +29,16 @@ const ImageUpload = () => {
             data: payload,
             onUploadProgress
         })
-            .then(() => {
-                toast.info('Arquivo enviado com sucesso!')
+            .then((response) => {
+                toast.info('Arquivo enviado com sucesso!');
+                setUploadedImgUrl(response.data.uri);
+                onUploadSuccess(response.data.uri);
+
             })
             .catch(() => {
                 toast.error('Erro ao enviar arquivo!');
             })
-            .finally (()=> setUploadProgress(0));
+            .finally(() => setUploadProgress(0));
     }
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedImage = event.target.files?.[0];
@@ -59,15 +65,23 @@ const ImageUpload = () => {
                 </small>
             </div>
             <div className="col-6 upload-placeholder">
-                <UploadPlaceHolder />
-
-                <div className="upload-progress-container">
-                    <div className="upload-progress" style={{width: `${uploadProgress}%`}}>
-
-                    </div>
-                </div>
+                {uploadProgress > 0 && (
+                    <>
+                        <UploadPlaceHolder />
+                        <div className="upload-progress-container">
+                            <div className="upload-progress" style={{ width: `${uploadProgress}%` }}>
+                            </div>
+                        </div>
+                    </>
+                )}
+                {(uploadedImgUrl && uploadProgress === 0) && (
+                    <img
+                        src={uploadedImgUrl}
+                        alt={uploadedImgUrl}
+                        className="uploaded-image"
+                    />
+                )}
             </div>
-
         </div>
     )
 }
