@@ -9,12 +9,16 @@ import Select from 'react-select';
 import { Category } from 'core/types/Categories';
 import ImageUpload from '../ImageUpload';
 import DescriptionField from './DescriptionField';
-import { EditorState } from 'draft-js';
+import { convertToRaw, EditorState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import {stateFromHTML} from 'draft-js-import-html';
+
+
 
 export type FormState = {
     name?: string;
     price?: string;
-    description?: EditorState;
+    description: EditorState;
     imgUrl?: string;
     categories?: Category[];
 }
@@ -39,11 +43,15 @@ const Form = () => {
         if (isEditing) {
             makeRequest({ url: `/products/${productId}` })
                 .then(response => {
+                    const contentState = stateFromHTML(response.data.description);
+                    const descriptionAsEditorState = EditorState.createWithContent(contentState);
+
                     setValue('name', response.data.name);
                     setValue('price', response.data.price);
-                    setValue('description', response.data.description);
                     setValue('categories', response.data.categories);
                     setProductImgUrl(response.data.imgUrl);
+                    setValue('description', descriptionAsEditorState);
+
                 })
         }
     }, [productId, isEditing, setValue]);
@@ -56,10 +64,15 @@ const Form = () => {
             .finally(() => setIsLoadingCategories(false))
     }, [])
 
+    const getDescriptionFromEditor = (editorState: EditorState) => {
+        return draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    }
+
 
     const onSubmit = (data: FormState) => {
         const payload = {
             ...data,
+            description: getDescriptionFromEditor(data.description),
             imgUrl: uploadedImgUrl
         }
         makePrivateRequest({
@@ -150,7 +163,7 @@ const Form = () => {
                         <DescriptionField control={control}/>
                         {errors.description && (
                             <div className="invalid-feedback d-block">
-                                {errors.description.message}
+                                {errors.description}
                             </div>
                         )}
                     </div>

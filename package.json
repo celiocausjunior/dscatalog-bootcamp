@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@types/draftjs-to-html": "^0.8.0",
+    "draftjs-to-html": "^0.9.1",
+    "react": "^17.0.1"
+  }
+}
