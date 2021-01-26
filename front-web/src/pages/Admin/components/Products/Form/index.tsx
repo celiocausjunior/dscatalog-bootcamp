@@ -9,11 +9,12 @@ import Select from 'react-select';
 import { Category } from 'core/types/Categories';
 import ImageUpload from '../ImageUpload';
 import DescriptionField from './DescriptionField';
+import { EditorState } from 'draft-js';
 
 export type FormState = {
     name?: string;
     price?: string;
-    description?: string;
+    description?: EditorState;
     imgUrl?: string;
     categories?: Category[];
 }
