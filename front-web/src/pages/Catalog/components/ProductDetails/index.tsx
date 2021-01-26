@@ -7,6 +7,9 @@ import { makeRequest } from 'core/utils/request';
 import { Product } from 'core/types/Product';
 import ProductInfoLoader from '../Loaders/ProductInfoLoader ';
 import ProductDescriptionLoader from '../Loaders/ProductDescriptionLoader ';
+import { Editor } from 'react-draft-wysiwyg';
+import { stateFromHTML } from 'draft-js-import-html';
+import { EditorState } from 'draft-js';
 
 type ParamsType = {
     productId: string;
@@ -17,6 +20,8 @@ const ProductDetails = () => {
     const { productId } = useParams<ParamsType>();
     const [product, setProduct] = useState<Product>();
     const [isLoading, setIsLoading] = useState(false);
+    const contentState = stateFromHTML(product?.description || '');
+    const descriptionAsEditorState = EditorState.createWithContent(contentState);
 
 
     useEffect(() => {
@@ -36,7 +41,7 @@ const ProductDetails = () => {
                 </Link>
                 <div className="row">
                     <div className="col-6 pr-5 ">
-                        {isLoading ? <ProductInfoLoader/> : (
+                        {isLoading ? <ProductInfoLoader /> : (
                             <>
                                 <div className="product-details-card text-center">
                                     <img src={product?.imgUrl} alt={product?.name} className="product-details-image" />
@@ -51,12 +56,16 @@ const ProductDetails = () => {
 
                     </div>
                     <div className="col-6 product-details-card">
-                        {isLoading ? <ProductDescriptionLoader/> : (
+                        {isLoading ? <ProductDescriptionLoader /> : (
                             <>
                                 <h1 className="product-description-title">Descrição do Produto</h1>
-                                <p className="product-description-text">
-                                    {product?.description}
-                                </p>
+
+                                <Editor
+                                    editorClassName="product-description-text"
+                                    editorState={descriptionAsEditorState}
+                                    toolbarHidden={true}
+                                    readOnly
+                                />
                             </>
                         )}
 
